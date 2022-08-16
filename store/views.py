@@ -17,6 +17,7 @@ def index(request):
         'products': products,
         'categories': category
     }
+    # print("Yor are: ", request.session.get('email'))
     return render(request, 'index.html', context)
 
 
@@ -41,6 +42,8 @@ class Login(View):
         if customer:
             flag = check_password(password, customer.password)
             if flag:
+                request.session['customer_id'] = customer.id
+                request.session['email'] = customer.email
                 return redirect('home')
             else:
                 error_msg = "Email or Password is Incorrect, Try again!"
