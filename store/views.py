@@ -19,17 +19,10 @@ def index(request):
     return render(request, 'index.html', context)
 
 
-# def get_all_products_by_id(request, category_id):
-#     if category_id:
-#         products = Category.objects.filter(category=category_id)
-#     else:
-#         products = Product.objects.all()
-#     return products
-
-def validateUser(customer):
+def validateUser(customer, request):
     """ Validations """
     error_msg = ""
-    confirm_password = customer.password
+    confirm_password = request.POST.get('confirmpassword')
     if not customer.first_name:
         error_msg = "First Name is Required!"
     elif (len(customer.first_name) < 4):
@@ -72,7 +65,7 @@ def registerUser(request):
         password=password,
     )
 
-    error_msg = validateUser(customer)
+    error_msg = validateUser(customer, request)
 
     values = {
         'first_name': customer.first_name,
@@ -87,7 +80,7 @@ def registerUser(request):
     # saving
     if not error_msg:
         customer.register()
-        return redirect('home')
+        return redirect('login')
     else:
         data = {
             'error': error_msg,
@@ -106,3 +99,20 @@ def signup(request):
 def login(request):
     if request.method == 'GET':
         return render(request, 'login.html')
+    else:
+        email = request.POST.get('emailId')
+        password = request.POST.get('password')
+        # print(email, password)
+        error_msg = ""
+        customer = Customer.get_customer_by_email(email)
+        if customer:
+            flag = check_password(password, customer.password)
+            if flag:
+                return redirect('home')
+            else:
+                error_msg = "Email or Password is Incorrect, Try again!"
+        else:
+            error_msg = "Email-Id is not yet registered"
+        return render(request, 'login.html', {
+            'error': error_msg
+        })
