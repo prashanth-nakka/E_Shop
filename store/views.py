@@ -5,23 +5,28 @@ from django.views import View
 from django.http import HttpResponse
 # Create your views here.
 
-
-def index(request):
-    products = Product.objects.all()
-    category = Category.objects.all()
-    # print(products.query)
-    # print(category.query)
-    # print(products)
-    # print(len(products))
-    context = {
-        'products': products,
-        'categories': category
-    }
-    # print("Yor are: ", request.session.get('email'))
-    return render(request, 'index.html', context)
-
-
 """ Class Based Views """
+
+
+class IndexView(View):
+    def get(self, request):
+        products = Product.objects.all()
+        category = Category.objects.all()
+        # print(products.query)
+        # print(category.query)
+        # print(products)
+        # print(len(products))
+        context = {
+            'products': products,
+            'categories': category
+        }
+        # print("Yor are: ", request.session.get('email'))
+        return render(request, 'index.html', context)
+
+    def post(self, request):
+        product_id = request.POST.get('productId')
+        print(product_id)
+        return redirect('home')
 
 
 class Login(View):
