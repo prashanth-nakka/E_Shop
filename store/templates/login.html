@@ -3,11 +3,11 @@
 {% block content %}
 <div class="container">
   <div class="m-4">
-    <div class="col-lg-4 mt-4 mb-4 mx-auto border mt-4 mb-4 rounded pt-3">
-        <h4 class="alert alert-light border rounded">
+    <div class="col-lg-5 mt-4 mb-4 mx-auto border mt-4 mb-4 rounded pt-5">
+        <h4 class="alert alert-dark border rounded">
             Login Here!
         </h4>
-      <form action="/login" method="post">
+      <form action="#" method="post">
         {% csrf_token %}
         {% if error %}
         <div class="alert alert-danger" role="alert">
@@ -39,6 +39,7 @@
             placeholder="********"
           />
         </div>
+        <br>
         <div class="form-group">
           <input class="btn btn-success col-lg-4" type="submit" value="Login">
           <input class="btn btn-warning col-lg-4" type="reset" value="Reset">

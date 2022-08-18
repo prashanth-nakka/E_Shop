@@ -43,7 +43,11 @@
           </p> -->
               <p><strong>₹{{ product.price }}.00</strong></p>
               <hr class="my-2" />
-              <a href="#" class="btn btn-light border btn-sm">Add to Cart</a>
+              <form action="/" method="post">
+                {% csrf_token %}
+                <input hidden type="text" value="{{ product.id }}" name="productId">
+                <input href="" type="submit" class="float-right btn btn-warning btn-sm">Add to Cart</input>
+              </form>
             </div>
           </div>
           {% endfor %}
